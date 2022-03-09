@@ -37,9 +37,9 @@ kg=Avg/avgG \\ kb=Avg/avgB$$
 
 ![请添加图片描述](https://img-blog.csdnimg.cn/a78a936b607a4d22b5a12a60ab844cd5.png?#pic_center)
 $$I(x, y)=R(x, y)L(x,y)$$
-<font face=楷体 size=4>其中I是人眼中看到的图像，R是物体的反射分量，L是环境光照射分量，(x, y)是二维图像对应的位置
+<font face=楷体 size=4>其中I是人眼中看到的图像，$R$是物体的反射分量，$L$是环境光照射分量，$(x, y)$是二维图像对应的位置
 
-<font face=楷体 size=4>它通过估算L来计算R，具体来说，L可以通过高斯模糊和I做卷积运算求得，用公式表示为：
+<font face=楷体 size=4>它通过估算$L$来计算$R$，具体来说，$L$可以通过高斯模糊和I做卷积运算求得，用公式表示为：
 $$log(R)=log(I)-log(L)\\L=F*I$$
 <font face=楷体 size=4>其中$F$是高斯模糊的滤波器，$*$表示卷积运算
 $$F=\frac{1}{\sqrt{2\pi}\sigma}exp(\frac{-r^2}{\sigma^2})$$
