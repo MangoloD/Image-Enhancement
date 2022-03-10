@@ -15,10 +15,14 @@ Date    ：2022/3/9 13:48
 
 import cv2
 import numpy as np
+from PIL import Image
 import matplotlib.pyplot as plt
 
 
 # 直方图均衡增强
+
+
+
 def hist(image):
     r, g, b = cv2.split(image)
     r1 = cv2.equalizeHist(r)
@@ -127,10 +131,27 @@ def MSR_image(image):
     return result
 
 
-if __name__ == "__main__":
-    image = cv2.imread("images/street.png")
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+def image_enhance(image, is_gamma=False):
+    if is_gamma:
+        image = image / 255.0  # 注意255.0得采用浮点数
+        image = np.power(image, 0.5) * 255.0
+        image = image.astype(np.uint8)
 
+    # numpy实现
+    out_min = 0
+    out_max = 255
+
+    in_min = np.min(image)
+    in_max = np.max(image)
+
+    a = float(out_max - out_min) / (in_max - in_min)
+    b = out_min - a * in_min
+    img_norm = image * a + b
+    img_norm = img_norm.astype(np.uint8)
+    return img_norm
+
+
+def paint(image):
     plt.subplot(4, 2, 1)
     plt.imshow(image)
     plt.axis('off')
@@ -193,3 +214,25 @@ if __name__ == "__main__":
     plt.title('MSR')
 
     plt.show()
+
+
+if __name__ == "__main__":
+    image = cv2.imread("images/vegetable.png")
+    image_ = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    flag = False
+    if flag:
+        paint(image_)
+    else:
+        img = image_enhance(image_, is_gamma=False)
+        plt.subplot(1, 2, 1)
+        plt.imshow(image_)
+        plt.axis('off')
+        plt.title('Offical')
+
+        plt.subplot(1, 2, 2)
+        plt.imshow(img)
+        plt.axis('off')
+        plt.title('common')
+
+        plt.show()

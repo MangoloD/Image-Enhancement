@@ -4,15 +4,12 @@ File    ：run.py
 Author  ：MangoloD
 Date    ：2022/3/9 13:58 
 """
-import sys
 import os
-
 import cv2
 import json
-
 import retinex
 
-data_path = '../images'
+data_path = 'image'
 img_list = os.listdir(data_path)
 if len(img_list) == 0:
     print('Data directory is empty.')
@@ -26,6 +23,7 @@ for img_name in img_list:
         continue
 
     img = cv2.imread(os.path.join(data_path, img_name))
+    cv2.imshow('Image', img)
 
     print('msrcr processing......')
     img_msrcr = retinex.MSRCR(
@@ -58,7 +56,6 @@ for img_name in img_list:
     )
 
     shape = img.shape
-    cv2.imshow('Image', img)
 
     cv2.imshow('MSRCP', img_msrcp)
     cv2.imwrite('MSRCP.tif', img_msrcp)
