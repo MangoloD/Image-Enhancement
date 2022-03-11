@@ -62,21 +62,14 @@ def his_equ_color(image):
 
 
 def whiteBalance(img):
-    rows = img.shape[0]
-    cols = img.shape[1]
-    final = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
-    avg_a = np.average(final[:, :, 1])
-    avg_b = np.average(final[:, :, 2])
-    for x in range(final.shape[0]):
-        for y in range(final.shape[1]):
-            l, a, b = final[x, y, :]
-            # fix for cv correction
-            l *= 100 / 255.0
-            final[x, y, 1] = a - ((avg_a - 128) * (l / 100.0) * 1.1)
-            final[x, y, 2] = b - ((avg_b - 128) * (l / 100.0) * 1.1)
+    result = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)  # CIELAB  model
+    avg_a = np.average(result[:, :, 1])  # a
+    avg_b = np.average(result[:, :, 2])  # b
+    result[:, :, 1] = result[:, :, 1] - ((avg_a - 128) * (result[:, :, 0] / 255.0) * 1.1)
+    result[:, :, 2] = result[:, :, 2] - ((avg_b - 128) * (result[:, :, 0] / 255.0) * 1.1)
+    result = cv2.cvtColor(result, cv2.COLOR_LAB2BGR)
 
-    final = cv2.cvtColor(final, cv2.COLOR_LAB2BGR)
-    return final
+    return result
 
 
 class MSRCR_Method:
@@ -163,7 +156,6 @@ class MSRCR_Method:
 
 class ACE:
     # 饱和函数
-
     def calc_saturation(self, diff, slope, limit):
         ret = diff * slope
         if ret > limit:
@@ -182,21 +174,27 @@ class ACE:
         # 随机产生索引
         for i in range(0, samples):
             _x = random.randint(0, width) % width
-        _y = random.randint(0, height) % height
-        dict = {"x": _x, "y": _y}
-        cary.append(dict)
+            _y = random.randint(0, height) % height
+            dict = {"x": _x, "y": _y}
+            cary.append(dict)
+
         mat = np.zeros((3, height, width), float)
+
         r_max = sys.float_info.min
         r_min = sys.float_info.max
+
         g_max = sys.float_info.min
         g_min = sys.float_info.max
+
         b_max = sys.float_info.min
         b_min = sys.float_info.max
+
         for i in range(height):
             for j in range(width):
                 r = img[0, i, j]
                 g = img[1, i, j]
                 b = img[2, i, j]
+
                 r_rscore_sum = 0.0
                 g_rscore_sum = 0.0
                 b_rscore_sum = 0.0
@@ -218,27 +216,29 @@ class ACE:
                     r_rscore_sum += self.calc_saturation(int(r) - int(_sr), slope, limit) / dist
                     g_rscore_sum += self.calc_saturation(int(g) - int(_sg), slope, limit) / dist
                     b_rscore_sum += self.calc_saturation(int(b) - int(_sb), slope, limit) / dist
+
                     denominator += limit / dist
 
                 r_rscore_sum = r_rscore_sum / denominator
                 g_rscore_sum = g_rscore_sum / denominator
                 b_rscore_sum = b_rscore_sum / denominator
+
                 mat[0, i, j] = r_rscore_sum
-
                 mat[1, i, j] = g_rscore_sum
-
                 mat[2, i, j] = b_rscore_sum
+
                 if r_max < r_rscore_sum:
                     r_max = r_rscore_sum
                 if r_min > r_rscore_sum:
                     r_min = r_rscore_sum
+
                 if g_max < g_rscore_sum:
                     g_max = g_rscore_sum
                 if g_min > g_rscore_sum:
                     g_min = g_rscore_sum
+
                 if b_max < b_rscore_sum:
                     b_max = b_rscore_sum
-
                 if b_min > b_rscore_sum:
                     b_min = b_rscore_sum
 
@@ -266,11 +266,11 @@ def paint(img, process_img, sign):
 
 
 if __name__ == '__main__':
-    image_path = 'images/vegetable.png'
+    image_path = 'images/BGRT2.jpg'
     image = cv2.imread(image_path)
     msrcr = MSRCR_Method()
 
-    sign = 'awb'
+    sign = ''
 
     process_image = None
     if sign == 'grey_world':

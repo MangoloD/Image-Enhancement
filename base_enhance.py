@@ -22,7 +22,6 @@ import matplotlib.pyplot as plt
 # 直方图均衡增强
 
 
-
 def hist(image):
     r, g, b = cv2.split(image)
     r1 = cv2.equalizeHist(r)
@@ -217,12 +216,25 @@ def paint(image):
 
 
 if __name__ == "__main__":
-    image = cv2.imread("images/vegetable.png")
+    image = cv2.imread("images/BGRT2.jpg")
     image_ = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    flag = False
-    if flag:
+    flag = 0
+    if flag == 0:
         paint(image_)
+    elif flag == 1:
+        image_msr = MSR_image(image)
+        plt.subplot(1, 2, 1)
+        plt.imshow(image_)
+        plt.axis('off')
+        plt.title('Offical')
+
+        plt.subplot(1, 2, 2)
+        plt.imshow(cv2.cvtColor(image_msr, cv2.COLOR_BGR2RGB))
+        plt.axis('off')
+        plt.title('MSR')
+
+        plt.show()
     else:
         img = image_enhance(image_, is_gamma=False)
         plt.subplot(1, 2, 1)
