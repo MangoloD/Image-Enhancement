@@ -123,4 +123,5 @@ $$L(x)=\frac{R(x)-minR}{maxR-minR}$$
 
 <font face=楷体 size=4>所以，一般算法中，会通过指定采样数来代替与整副图像的像素点信息进行差分计算,减少运算量，提高效率。
 ![请添加图片描述](https://img-blog.csdnimg.cn/de5137328ff247efaa5dcff09321e75e.png)
+ 
 <font face=楷体 size=4>总结：查看各种传统算法的效果图，ACE自动色彩均衡算法具有比较好的普遍性和效果，当然，对于一些图片ACE也不能得到很好地效果
