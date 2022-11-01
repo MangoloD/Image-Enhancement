@@ -35,7 +35,7 @@ kg=Avg/avgG \\ kb=Avg/avgB$$
 ① 算法原理
 <font face=楷体 size=4>视网膜-大脑皮层（Retinex）理论认为世界是无色的，人眼看到的世界是光与物质相互作用的结果，也就是说，映射到人眼中的图像和光的长波（R）、中波（G）、短波（B）以及物体的反射性质有关
 
-![请添加图片描述](https://img-blog.csdnimg.cn/a78a936b607a4d22b5a12a60ab844cd5.png?#pic_center)
+![请添加图片描述](https://img-blog.csdnimg.cn/a78a936b607a4d22b5a12a60ab844cd5.png)
 $$I(x, y)=R(x, y)L(x,y)$$
 <font face=楷体 size=4>其中I是人眼中看到的图像，$R$是物体的反射分量，$L$是环境光照射分量，$(x, y)$是二维图像对应的位置
 
